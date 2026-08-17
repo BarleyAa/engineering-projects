@@ -1,0 +1,23 @@
+# Build output
+build/
+*.o
+*.elf
+*.hex
+*.bin
+
+# Altium / CAD junk
+History/
+Project Logs*/
+*.SchDocPreview
+*.PcbDocPreview
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Local helper
+push-to-github.ps1
+_to_delete/
+push-to-github.cmd
+push-log.txt
