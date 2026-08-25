@@ -1,4 +1,4 @@
-# Engineering Projects — Agris Miezītis
+# Engineering Projects by Agris Miezītis
 
 Electrical Engineering student at Riga Technical University, working in embedded systems and automation. This repository collects my hardware and firmware projects: source, design files and documentation.
 
@@ -10,7 +10,7 @@ Electrical Engineering student at Riga Technical University, working in embedded
 
 ### ⚡ [AC/DC Power Meter](power-meter/)
 
-An instrument that measures voltage and current on AC or DC loads and works out the full power triangle in firmware — including whether the load is inductive or capacitive.
+An instrument that measures voltage and current on AC or DC loads and works out the full power triangle in firmware, including whether the load is inductive or capacitive.
 
 Register-level AVR: the ADC is driven from a timer interrupt and alternates channels inside the ADC ISR, so voltage and current are sampled back-to-back and their phase relationship is kept.
 
@@ -20,13 +20,13 @@ Register-level AVR: the ADC is driven from a timer interrupt and alternates chan
 
 ### 🌱 [Automated Growhouse](growhouse/)
 
-A greenhouse that waters, ventilates and lights itself. Three separate control loops on one Arduino, working across 5 V logic, a 12 V fan and 230 V mains through a relay — with an irrigation state machine and a 2 °C hysteresis band on the temperature control.
+A greenhouse that waters, ventilates and lights itself. Three separate control loops on one Arduino, working across 5 V logic, a 12 V fan and 230 V mains through a relay, with an irrigation state machine and a 2 °C hysteresis band on the temperature control.
 
 `Arduino` · `3D printing` · `mixed-voltage` · *firmware to be added*
 
 ---
 
-### 🔌 [NE555 Timer Relay — PCB](timer-relay/)
+### 🔌 [NE555 Timer Relay PCB](timer-relay/)
 
 A single-layer through-hole board for an adjustable-delay timer relay, designed in Altium. Every drill diameter worked out from lead geometry and plating thickness; every trace width calculated from current density.
 
@@ -34,15 +34,15 @@ A single-layer through-hole board for an adjustable-delay timer relay, designed 
 
 ---
 
-### 🚪 [SmartTurn — Retrofit Smart Lock](smartturn/)
+### 🚪 [SmartTurn Retrofit Smart Lock](smartturn/)
 
-A device that makes an ordinary interior door lock smart without modifying the door. About €15–30 in parts against €100–280 for the products on the market. Team project — I did the hardware, firmware and mechanical design.
+A device that makes an ordinary interior door lock smart without modifying the door. About €15–30 in parts against €100–280 for the products on the market. It was a team project and I did the hardware, firmware and mechanical design.
 
 `ESP32` · `servo` · `3D printing` · *firmware to be added*
 
 ---
 
-### ⚙️ [DC Motor Control — STM32](motor-control/)
+### ⚙️ [DC Motor Control with STM32](motor-control/)
 
 Four-button control of a brushed gearmotor: speed by PWM, LED indication in 25% increments, and reversal sequenced through a stop state to keep back-EMF off the driver.
 
@@ -52,4 +52,4 @@ Four-button control of a brushed gearmotor: speed by PWM, LED indication in 25% 
 
 ## Also
 
-Two projects that live better as visuals than as code — a 14-part SolidWorks conveyor assembly with motion study and production drawing, and a DIALux room lighting design checked against the required illuminance levels. Both are on my website.
+Two projects that live better as visuals than as code: a 14-part SolidWorks conveyor assembly with motion study and production drawing, and a DIALux room lighting design checked against the required illuminance levels. Both are on my website.

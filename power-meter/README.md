@@ -1,6 +1,6 @@
 # AC/DC Power Meter
 
-An instrument that measures voltage and current on either AC or DC loads and works out the full power picture in firmware — including whether the load is **inductive or capacitive**.
+An instrument that measures voltage and current on either AC or DC loads and works out the full power picture in firmware, including whether the load is **inductive or capacitive**.
 
 Built on an ATmega328-class AVR, sampling at register level rather than through the Arduino ADC API.
 
@@ -22,7 +22,7 @@ This meter measures both channels continuously and computes:
 | Apparent power | S | U<sub>rms</sub> × I<sub>rms</sub> |
 | Reactive power | Q | √(S² − P²) |
 | Power factor | cos φ | P / S |
-| Load type | — | sign of the zero-crossing index difference |
+| Load type |  | sign of the zero-crossing index difference |
 
 ---
 
@@ -36,11 +36,11 @@ The interesting part is the sampling, not the maths.
 2. **The ADC ISR** stores the result. If it just read voltage, it switches the multiplexer to the current channel and immediately starts a second conversion. If it just read current, it advances the buffer index.
 3. When both 200-sample buffers are full, a flag hands them to the main loop.
 
-The result is that voltage and current are sampled back-to-back on every tick, so the phase relationship between them is kept — which is what the inductive/capacitive detection is based on.
+The result is that voltage and current are sampled back-to-back on every tick, so the phase relationship between them is kept, which is what the inductive/capacitive detection is based on.
 
 ## Phase detection
 
-`findZCIndex()` walks each buffer looking for the first sample pair that sits either side of the signal's own mean — a zero crossing of the AC component. Comparing where voltage crosses against where current crosses gives the phase relationship:
+`findZCIndex()` walks each buffer looking for the first sample pair that sits either side of the signal's own mean, which is a zero crossing of the AC component. Comparing where voltage crosses against where current crosses gives the phase relationship:
 
 - current crossing **after** voltage → current lags → **inductive**
 - current crossing **before** voltage → current leads → **capacitive**
@@ -71,20 +71,20 @@ Open `src/power_meter.ino` in the Arduino IDE and flash to an ATmega328-based bo
 
 Channel assignment:
 
-- `ADC0` — voltage
-- `ADC1` — current
+- `ADC0`: voltage
+- `ADC1`: current
 
 ---
 
 ## Known limitations
 
-Documented rather than hidden — these are the things I would fix next.
+These are documented rather than hidden. They are the things I would fix next.
 
 ### The buffers are not double-buffered
 
 `bufferReady` is set the moment `sampleIndex` wraps, but the ADC interrupt immediately starts writing to `bufferU[0]` again while `processBuffer()` is still reading it. Every result is therefore computed over a buffer that is partly being overwritten as it is read.
 
-At roughly 1 ms per sample pair a full buffer takes about 200 ms to fill, and processing plus the serial output takes about 10–20 ms — so about 5–10% of each buffer is next-cycle data. For a steady periodic signal the effect is small, but it is still a real race condition. Two alternating buffers with the ISR writing one while the main loop reads the other would remove it entirely.
+At roughly 1 ms per sample pair a full buffer takes about 200 ms to fill, and processing plus the serial output takes about 10–20 ms, so about 5–10% of each buffer is next-cycle data. For a steady periodic signal the effect is small, but it is still a real race condition. Two alternating buffers with the ISR writing one while the main loop reads the other would remove it entirely.
 
 ### Scaling cuts off the decimals too early
 
@@ -92,13 +92,13 @@ At roughly 1 ms per sample pair a full buffer takes about 200 ms to fill, and pr
 int32_t diffU = ((int32_t)bufferU[i] - (int32_t)averageU) * SCALE_U;
 ```
 
-The multiply gives a float, but the assignment cuts it back to an integer — a difference of 4 ADC counts × 0.21 becomes 0, not 0.84. Because it cuts toward zero rather than to the nearest value, the error always goes the same way, so RMS and power come out too low rather than just noisy. Accumulating in `float` fixes it.
+The multiply gives a float, but the assignment cuts it back to an integer, so a difference of 4 ADC counts × 0.21 becomes 0, not 0.84. Because it cuts toward zero rather than to the nearest value, the error always goes the same way, so RMS and power come out too low rather than just noisy. Accumulating in `float` fixes it.
 
 `(int32_t)averageU` cuts off the mean the same way, adding up to a full count of DC offset to every sample.
 
 ### Zero-crossing direction is not checked
 
-`findZCIndex()` returns the first crossing it finds, regardless of whether the signal is rising or falling through its mean. If voltage happens to cross rising and current crosses falling, the index difference between them is not a phase difference at all. Matching crossing direction — and averaging across several crossings — would make the inductive/capacitive result reliable rather than only usually correct.
+`findZCIndex()` returns the first crossing it finds, regardless of whether the signal is rising or falling through its mean. If voltage happens to cross rising and current crosses falling, the index difference between them is not a phase difference at all. Matching crossing direction, and averaging across several crossings, would make the inductive/capacitive result reliable rather than only usually correct.
 
 ### Calibration is hard-coded
 

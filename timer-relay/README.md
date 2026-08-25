@@ -1,6 +1,6 @@
-# NE555 Timer Relay — PCB Design
+# NE555 Timer Relay PCB Design
 
-A single-layer through-hole board for an adjustable-delay timer relay. Press the trigger, the relay pulls in, and it drops out after a delay set by a front-panel potentiometer — anywhere from a few seconds to several minutes.
+A single-layer through-hole board for an adjustable-delay timer relay. Press the trigger, the relay pulls in, and it drops out after a delay set by a front-panel potentiometer, anywhere from a few seconds to several minutes.
 
 <p align="center">
   <img src="docs/schematic.webp" width="49%" alt="Altium schematic">
@@ -28,7 +28,7 @@ A single-layer through-hole board for an adjustable-delay timer relay. Press the
 
 The schematic is the easy part. What this project was actually about:
 
-**Drill diameters** were worked out per component rather than guessed — from each part's lead diameter, the plating thickness, and some extra room for manufacturing tolerance.
+**Drill diameters** were worked out per component rather than guessed, from each part's lead diameter, the plating thickness, and some extra room for manufacturing tolerance.
 
 **Trace widths** were calculated from current density rather than left at a default. The board runs 1.00 mm traces, well above the calculated minimum.
 
@@ -41,4 +41,4 @@ The schematic is the easy part. What this project was actually about:
 - [ ] Add Altium project files to `hardware/`
 - [ ] Export and add Gerbers
 - [ ] Photo of the assembled board, if one was built
-- [ ] Fix the trace-width table in the original report — the text calculates 0.5 / (30 × 0.035) = 0.48 mm, but the table lists 0.017 mm, which drops the copper thickness term. The board is unaffected; the document isn't.
+- [ ] Fix the trace-width table in the original report. The text calculates 0.5 / (30 × 0.035) = 0.48 mm, but the table lists 0.017 mm, which drops the copper thickness term. The board is unaffected; the document isn't.

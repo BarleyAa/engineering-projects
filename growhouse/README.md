@@ -1,6 +1,6 @@
 # Automated Growhouse
 
-A greenhouse that waters, ventilates and lights itself — three separate control loops on one Arduino, working across 5 V logic, a 12 V fan and 230 V mains through a relay.
+A greenhouse that waters, ventilates and lights itself. Three separate control loops on one Arduino, working across 5 V logic, a 12 V fan and 230 V mains through a relay.
 
 ---
 
@@ -8,7 +8,7 @@ A greenhouse that waters, ventilates and lights itself — three separate contro
 
 ### Irrigation
 
-A capacitive soil moisture sensor reads the soil. Below threshold, a 5 V pump runs for **5 seconds** — then a **5-minute lockout** before another measurement can trigger another cycle.
+A capacitive soil moisture sensor reads the soil. Below threshold, a 5 V pump runs for **5 seconds**, then a **5-minute lockout** before another measurement can trigger another cycle.
 
 The lockout is the point. Soil that has just been watered still reads dry, because it hasn't absorbed yet. Without that waiting time the pump re-triggers on every measurement and the plant drowns. Implemented as a state machine rather than a delay so the other loops keep running.
 
@@ -53,4 +53,4 @@ Live temperature and moisture on an OLED.
 - [ ] Add the STL for the vent hatch to `hardware/`
 - [ ] Wiring diagram
 - [ ] Build photos in `docs/`
-- [ ] Consider replacing the DHT11 — it is slow and not very accurate; an SHT31 would give better accuracy and humidity data worth using
+- [ ] Consider replacing the DHT11. It is slow and not very accurate; an SHT31 would give better accuracy and humidity data worth using
