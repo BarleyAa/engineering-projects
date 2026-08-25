@@ -1,4 +1,4 @@
-# NE555 Timer Relay PCB Design
+# NE555 Timer Relay — PCB Design
 
 A single-layer through-hole board for an adjustable-delay timer relay. Press the trigger, the relay pulls in, and it drops out after a delay set by a front-panel potentiometer, anywhere from a few seconds to several minutes.
 

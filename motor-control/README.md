@@ -1,4 +1,4 @@
-# DC Motor Control with STM32
+# DC Motor Control — STM32
 
 Four-button control of a brushed DC gearmotor: speed up, speed down, reverse, emergency stop.
 

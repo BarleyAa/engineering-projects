@@ -1,4 +1,4 @@
-# Engineering Projects by Agris Miezītis
+# Engineering Projects — Agris Miezītis
 
 Electrical Engineering student at Riga Technical University, working in embedded systems and automation. This repository collects my hardware and firmware projects: source, design files and documentation.
 
@@ -26,7 +26,7 @@ A greenhouse that waters, ventilates and lights itself. Three separate control l
 
 ---
 
-### 🔌 [NE555 Timer Relay PCB](timer-relay/)
+### 🔌 [NE555 Timer Relay — PCB](timer-relay/)
 
 A single-layer through-hole board for an adjustable-delay timer relay, designed in Altium. Every drill diameter worked out from lead geometry and plating thickness; every trace width calculated from current density.
 
@@ -34,7 +34,7 @@ A single-layer through-hole board for an adjustable-delay timer relay, designed 
 
 ---
 
-### 🚪 [SmartTurn Retrofit Smart Lock](smartturn/)
+### 🚪 [SmartTurn — Retrofit Smart Lock](smartturn/)
 
 A device that makes an ordinary interior door lock smart without modifying the door. About €15–30 in parts against €100–280 for the products on the market. It was a team project and I did the hardware, firmware and mechanical design.
 
@@ -42,7 +42,7 @@ A device that makes an ordinary interior door lock smart without modifying the d
 
 ---
 
-### ⚙️ [DC Motor Control with STM32](motor-control/)
+### ⚙️ [DC Motor Control — STM32](motor-control/)
 
 Four-button control of a brushed gearmotor: speed by PWM, LED indication in 25% increments, and reversal sequenced through a stop state to keep back-EMF off the driver.
 

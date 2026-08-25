@@ -1,4 +1,4 @@
-# SmartTurn Retrofit Smart Lock
+# SmartTurn — Retrofit Smart Lock
 
 A device that makes an ordinary interior door lock smart without modifying the door. About €15–30 in parts, against €100–280 for the products on the market.
 
