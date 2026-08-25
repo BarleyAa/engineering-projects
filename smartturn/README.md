@@ -1,8 +1,6 @@
 # SmartTurn — Retrofit Smart Lock
 
-> **Status: needs your code and CAD.** Written from your team's final report. Drop firmware into `src/` and the gripper model into `hardware/`, then delete this line.
-
-A device that makes an ordinary interior door lock smart without modifying the door. Unit cost €20–30 against €150–500 for commercial equivalents.
+A device that makes an ordinary interior door lock smart without modifying the door. About €15–30 in parts, against €100–280 for the products on the market.
 
 Team project (3 people) at Riga Technical University. **My contribution: hardware, firmware and mechanical design.**
 
@@ -16,14 +14,14 @@ Most interior doors have no keyhole on the inside — just a thumb-turn. Every c
 |---|---|---|
 | Yale Linus | €200–280 | Full cylinder replacement |
 | Nuki | €150–250 | Cylinder work |
-| SwitchBot Lock | €100–130 | Retrofit, but priced high |
-| **SmartTurn** | **€50–90** | Adhesive or screws |
+| SwitchBot Lock | €100–130 | Retrofit, but expensive |
+| **SmartTurn** | **€50–90 (est. selling price)** | Adhesive or screws |
 
 ## How it works
 
 A 3D-printed gripper clamps over the existing thumb-turn. A 13 kg-rated MG996R metal-gear servo turns it. An ESP32 provides Wi-Fi and Bluetooth control alongside a physical button on the unit.
 
-The design constraint: it operates from the inside only, and the outside key keeps working exactly as before. The lock is never replaced or bypassed — only actuated.
+The design constraint: it operates from the inside only, and the outside key keeps working exactly as before. The lock is never replaced or bypassed — only turned.
 
 ---
 
@@ -45,22 +43,22 @@ The design constraint: it operates from the inside only, and the outside key kee
 
 ## Test results
 
-Prototype tested under simulated daily use.
+Prototype tested in normal daily use.
 
 | Aspect | Result |
 |---|---|
-| Door opening | Reliable; torque sufficient for standard locks |
-| Servo | Stable, uniform rotation angle, no step skipping |
+| Door opening | Reliable; torque is enough for standard locks |
+| Servo | Stable, same rotation angle every time, no skipped steps |
 | ESP32 control | No hangs; precise PWM generation and command handling |
-| Mounting | Satisfactory, but the housing deforms slightly under high load |
-| Gripper | Needs fitting per lock type — otherwise the axis drifts and it slips |
+| Mounting | Good enough, but the housing bends slightly under high load |
+| Gripper | Needs fitting to each lock type — otherwise it goes off-axis and slips |
 
 ---
 
 ## Next steps
 
 - Stiffer housing
-- Adaptive gripper that fits multiple knob geometries without a reprint
+- A gripper that adjusts to more than one knob shape without a reprint
 - Matter compatibility
 
 ## TODO
@@ -69,4 +67,3 @@ Prototype tested under simulated daily use.
 - [ ] Add gripper and housing STLs to `hardware/`
 - [ ] Wiring diagram
 - [ ] Photos of the prototype mounted on a door
-- [ ] Confirm with your teammates that publishing this is fine — it was a shared project

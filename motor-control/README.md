@@ -1,7 +1,5 @@
 # DC Motor Control — STM32
 
-> **Status: needs your code.** Written from your presentation. Drop your source into `src/` and delete this line.
-
 Four-button control of a brushed DC gearmotor: speed up, speed down, reverse, emergency stop.
 
 ---
@@ -40,4 +38,4 @@ Reversal is deliberately not a live switch. Reversing a spinning motor puts its 
 
 - [ ] Add firmware to `src/`
 - [ ] Wiring diagram
-- [ ] Add the demo video — you have 35 seconds of working footage, and it is the best evidence in this repo
+- [ ] Add the demo video — 35 seconds of it running

@@ -1,7 +1,5 @@
 # NE555 Timer Relay — PCB Design
 
-> **Status: needs your Altium project files.** Drop the schematic, PCB and output job files into `hardware/` and delete this line.
-
 A single-layer through-hole board for an adjustable-delay timer relay. Press the trigger, the relay pulls in, and it drops out after a delay set by a front-panel potentiometer — anywhere from a few seconds to several minutes.
 
 <p align="center">
@@ -30,11 +28,11 @@ A single-layer through-hole board for an adjustable-delay timer relay. Press the
 
 The schematic is the easy part. What this project was actually about:
 
-**Drill diameters** were derived per component rather than assumed — from each part's lead diameter, the plating thickness, and a process tolerance allowance.
+**Drill diameters** were worked out per component rather than guessed — from each part's lead diameter, the plating thickness, and some extra room for manufacturing tolerance.
 
-**Trace widths** were sized from current density rather than from a default. The board runs 1.00 mm traces, comfortably above the calculated minimum.
+**Trace widths** were calculated from current density rather than left at a default. The board runs 1.00 mm traces, well above the calculated minimum.
 
-**Signal frequencies** were checked to confirm that trace length was irrelevant here. Everything on the board is DC or well under a hertz, so transmission-line effects don't apply and routing could be optimised for layout instead of length. Worth confirming rather than assuming.
+**Signal frequencies** were checked to confirm that trace length did not matter here. Everything on the board is DC or well under a hertz, so parasitic effects in the traces do not matter and routing could be done for a tidy layout instead of for length. Worth checking rather than assuming.
 
 ---
 

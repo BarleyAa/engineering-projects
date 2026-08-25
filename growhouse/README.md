@@ -1,8 +1,6 @@
 # Automated Growhouse
 
-> **Status: needs your code.** Everything below is written from your presentation. Drop your `.ino` into `src/` and delete this line.
-
-A greenhouse that waters, ventilates and lights itself — three independent control loops on one Arduino, spanning 5 V logic, a 12 V fan and 230 V mains through a relay.
+A greenhouse that waters, ventilates and lights itself — three separate control loops on one Arduino, working across 5 V logic, a 12 V fan and 230 V mains through a relay.
 
 ---
 
@@ -12,7 +10,7 @@ A greenhouse that waters, ventilates and lights itself — three independent con
 
 A capacitive soil moisture sensor reads the soil. Below threshold, a 5 V pump runs for **5 seconds** — then a **5-minute lockout** before another measurement can trigger another cycle.
 
-The lockout is the point. Soil that has just been watered still reads dry, because it hasn't absorbed yet. Without a soak window the pump re-triggers on every measurement and the plant drowns. Implemented as a state machine rather than a delay so the other loops keep running.
+The lockout is the point. Soil that has just been watered still reads dry, because it hasn't absorbed yet. Without that waiting time the pump re-triggers on every measurement and the plant drowns. Implemented as a state machine rather than a delay so the other loops keep running.
 
 ### Temperature
 
@@ -23,7 +21,7 @@ A DHT11 reads air temperature.
 | Above **27 °C** | 12 V fan starts, 3D-printed servo vent hatch opens |
 | Below **25 °C** | Both close |
 
-The 2 °C gap is deliberate hysteresis. With a single setpoint the fan chatters on and off every time the reading wobbles across the line.
+The 2 °C gap is deliberate hysteresis. With a single setpoint the fan switches on and off constantly every time the reading moves slightly across the line.
 
 ### Lighting
 
@@ -42,7 +40,7 @@ Live temperature and moisture on an OLED.
 | Soil moisture | Capacitive soil moisture sensor v2.0 |
 | Air temperature | DHT11 |
 | Irrigation | 5 V pump |
-| Ventilation | 12 V fan + servo-actuated 3D-printed hatch |
+| Ventilation | 12 V fan + servo-driven 3D-printed hatch |
 | Lighting | 230 V lamp on relay |
 | Display | OLED |
 | Controller | Arduino |
@@ -55,4 +53,4 @@ Live temperature and moisture on an OLED.
 - [ ] Add the STL for the vent hatch to `hardware/`
 - [ ] Wiring diagram
 - [ ] Build photos in `docs/`
-- [ ] Consider replacing the DHT11 — it is slow and imprecise; an SHT31 would give better accuracy and usable humidity data
+- [ ] Consider replacing the DHT11 — it is slow and not very accurate; an SHT31 would give better accuracy and humidity data worth using
