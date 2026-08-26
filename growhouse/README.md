@@ -47,6 +47,35 @@ Live temperature and moisture on an OLED.
 
 ---
 
+## Wiring
+
+![Wiring diagram](docs/wiring.svg)
+
+| Pin | Direction | Connected to |
+|---|---|---|
+| `A1` | analog in | Capacitive soil moisture sensor v2.0, AOUT |
+| `D2` | digital in | DHT11 data |
+| `D3` | digital out | Extraction fan, 12 V, through a switch |
+| `D4` | PWM out | Vent hatch servo, signal |
+| `D7` | digital out | Irrigation pump, 5 V, through a switch |
+| `D8` | digital out | Grow lamp, 230 V, through a mains-rated relay |
+| `A4` | I2C SDA | SSD1306 OLED |
+| `A5` | I2C SCL | SSD1306 OLED |
+
+The OLED sits on the hardware I2C pins, which are `A4` and `A5` on an Uno or
+Nano, at address `0x3C`.
+
+The soil sensor is calibrated in the firmware with `dry = 330` and
+`wet = 196`, both read from this sensor in this soil. A different sensor or a
+different pot needs those two numbers measured again.
+
+Nothing on `D3`, `D7` or `D8` is driven straight from the pin. Each one goes
+through a switch, and each load needs a flyback diode across it. The grow lamp
+runs on mains, so it needs a mains-rated relay, an enclosure, and the supply
+unplugged while you work on it.
+
+---
+
 ## Building
 
 Open `src/growhouse.ino` in the Arduino IDE and flash it to the board.
@@ -64,6 +93,5 @@ Libraries needed, all from the Library Manager:
 ## TODO
 
 - [ ] Add the STL for the vent hatch to `hardware/`
-- [ ] Wiring diagram
 - [ ] Build photos in `docs/`
 - [ ] Consider replacing the DHT11. It is slow and not very accurate; an SHT31 would give better accuracy and humidity data worth using
