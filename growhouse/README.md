@@ -47,9 +47,22 @@ Live temperature and moisture on an OLED.
 
 ---
 
+## Building
+
+Open `src/growhouse.ino` in the Arduino IDE and flash it to the board.
+Serial output is plain text at **9600 baud**.
+
+Libraries needed, all from the Library Manager:
+
+- Adafruit GFX Library
+- Adafruit SSD1306
+- DHT sensor library
+- Servo (ships with the IDE)
+
+---
+
 ## TODO
 
-- [ ] Add firmware to `src/`
 - [ ] Add the STL for the vent hatch to `hardware/`
 - [ ] Wiring diagram
 - [ ] Build photos in `docs/`
