@@ -203,8 +203,7 @@ void updateDisplay() {
   display.setCursor(0, 40);
   display.print(F("M: "));
   if (soilSensorOK) {
-    display.print(percentageMoisture);
-    display.println(F("%"));
+    display.println(percentageMoisture);   // no % sign, matching the build photo
   } else {
     display.println(F("--"));
   }
