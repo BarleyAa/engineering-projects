@@ -50,6 +50,14 @@ Four-button control of a brushed gearmotor: speed by PWM, LED indication in 25% 
 
 ---
 
+### 🔊 [Shoebox Speaker](shoebox-speaker/)
+
+A portable amplified speaker built into a shoebox, using a salvaged 8 Ω driver and an LM386 amplifier stage. The box itself is the enclosure, so sealing the driver into the panel is what decides whether there is any low end at all.
+
+`LM386` · `analogue audio` · *currently building*
+
+---
+
 ## Also
 
 Two projects that live better as visuals than as code: a 14-part SolidWorks conveyor assembly with motion study and production drawing, and a DIALux room lighting design checked against the required illuminance levels. Both are on my website.
