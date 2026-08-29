@@ -19,7 +19,7 @@ working to. Photos and measurements go in as I get them.
 |---|---|
 | Enclosure | A shoebox, roughly shoe sized |
 | Driver | 8 Ω small full-range, salvaged |
-| Amplifier | LM386 audio amplifier IC |
+| Amplifier | LM386 audio power amplifier IC, not a general purpose op-amp |
 | Power | 9 V battery |
 | Passives | Resistors and capacitors from the LM386 reference circuit |
 | Input | Aux cable from a phone or a laptop |
