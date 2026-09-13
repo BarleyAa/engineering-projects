@@ -10,7 +10,7 @@ Electrical Engineering student at Riga Technical University, working in embedded
 
 ### ⚡ [AC/DC Power Meter](power-meter/)
 
-An instrument that measures voltage and current on AC or DC loads and works out the full power triangle in firmware, including whether the load is inductive or capacitive.
+A meter for 50 Hz AC and for DC loads, built for up to ±30 A. It works out the full power triangle for AC loads in firmware, and makes a first attempt at telling inductive loads from capacitive ones.
 
 Register-level AVR: the ADC is driven from a timer interrupt and alternates channels inside the ADC ISR, so voltage and current are sampled back-to-back and their phase relationship is kept.
 
@@ -22,7 +22,7 @@ Register-level AVR: the ADC is driven from a timer interrupt and alternates chan
 
 A greenhouse that waters, ventilates and lights itself. Three separate control loops on one Arduino, working across 5 V logic, a 12 V fan and 230 V mains through a relay, with an irrigation state machine and a 2 °C hysteresis band on the temperature control.
 
-`Arduino` · `3D printing` · `mixed-voltage` · *firmware to be added*
+`Arduino` · `3D printing` · `mixed-voltage` · **complete**
 
 ---
 

@@ -2,14 +2,14 @@
  * AC/DC Power Meter
  * Agris Miezitis
  *
- * Measures voltage and current on AC or DC loads and computes the full power
- * triangle in firmware: RMS values, real / apparent / reactive power, power
- * factor, and the phase relationship between voltage and current.
+ * Reads voltage and current on AC or DC loads. For AC loads it works out
+ * RMS, real / apparent / reactive power and power factor, and tries to tell
+ * an inductive load from a capacitive one. DC levels are only printed as raw
+ * ADC averages. See the README for what does not work yet.
  *
- * Sampling bypasses the Arduino analogRead() API. The ADC is configured
- * directly and driven from a Timer1 compare interrupt; the ADC ISR alternates
- * the input multiplexer between the voltage and current channels so both are
- * captured on every sampling tick.
+ * This does not use analogRead(). The ADC is set up directly and started by
+ * a Timer1 compare interrupt, and the ADC interrupt swaps the input between
+ * the voltage and current channels, so both are read on every tick.
  *
  * Hardware:
  *   Current  - ACS712 Hall-effect sensor (works for AC and DC)
@@ -33,8 +33,8 @@ volatile uint16_t bufferI[BUFFER_SIZE]; // Current buffer
 volatile uint8_t sampleIndex = 0;
 volatile bool bufferReady = false;
 
-/* Empirically derived scale factors: ADC counts -> volts / amps.
- * These are specific to this board's divider and sensor. See README. */
+/* Scale factors to turn ADC counts into volts and amps. I measured these
+ * myself, so they only match this board's divider and sensor. See README. */
 #define SCALE_U 0.21f
 #define SCALE_I 0.077f
 
@@ -61,7 +61,7 @@ ISR(TIMER1_COMPA_vect) {
     ADCSRA |= (1 << ADSC);
 }
 
-// Conversion complete: store the result, then chain to the other channel
+// Conversion done: save the result, then start the other channel
 ISR(ADC_vect) {
     uint16_t adcValue = ADC;
 
@@ -71,7 +71,7 @@ ISR(ADC_vect) {
         ADMUX = (1 << REFS0) | (1 << MUX0);
         ADCSRA |= (1 << ADSC);
     } else {
-        // That was the current channel - advance the buffer
+        // That was the current channel - move on to the next slot
         bufferI[sampleIndex] = adcValue;
         sampleIndex++;
         if (sampleIndex >= BUFFER_SIZE) {
@@ -82,9 +82,9 @@ ISR(ADC_vect) {
     }
 }
 
-/* Find the first index where the signal crosses its own mean.
- * The difference between the voltage and current crossing indices gives
- * the phase relationship. Returns -1 if no crossing was found. */
+/* Find the first index where the signal crosses its own average.
+ * The difference between the voltage and current crossing points gives
+ * the phase. Returns -1 if it does not find a crossing. */
 int findZCIndex(volatile uint16_t* buffer, float average) {
     for (int i = 1; i < BUFFER_SIZE; i++) {
         if ((buffer[i-1] - average) * (buffer[i] - average) <= 0) {
@@ -95,7 +95,7 @@ int findZCIndex(volatile uint16_t* buffer, float average) {
 }
 
 void processBuffer(volatile uint16_t* bufferU, volatile uint16_t* bufferI) {
-    // Pass 1: means (the DC offset the AC waveform rides on)
+    // First pass: the averages, which is the DC offset under the AC waveform
     uint32_t sumU = 0;
     uint32_t sumI = 0;
     for (uint8_t i = 0; i < BUFFER_SIZE; i++) {
@@ -105,7 +105,7 @@ void processBuffer(volatile uint16_t* bufferU, volatile uint16_t* bufferI) {
     float averageU = sumU / (float)BUFFER_SIZE;
     float averageI = sumI / (float)BUFFER_SIZE;
 
-    // Pass 2: squared sums for RMS, and the instantaneous product for real power
+    // Second pass: squared sums for RMS, and u*i for the real power
     uint32_t sq_sumU = 0;
     uint32_t sq_sumI = 0;
     int64_t realPowerSum = 0;

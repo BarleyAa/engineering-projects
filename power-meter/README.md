@@ -1,10 +1,21 @@
 # AC/DC Power Meter
 
-An instrument that measures voltage and current on either AC or DC loads and works out the full power picture in firmware, including whether the load is **inductive or capacitive**.
+A meter for 50 Hz AC and for DC loads. It samples voltage and current at register level and works out the full power triangle for AC loads in firmware. It also tries to tell an inductive load from a capacitive one, but that part is not reliable yet (see [Known limitations](#known-limitations)).
 
 Built on an ATmega328-class AVR, sampling at register level rather than through the Arduino ADC API.
 
 ![Hand-wired perfboard](docs/perfboard.webp)
+
+## Operating range
+
+| | Range | Set by |
+|---|---|---|
+| Current | ±30 A | ACS712ELC-30A, about 66 mV/A |
+| DC voltage | up to about 34 V | 330 kΩ / 56 kΩ divider into the 5 V ADC |
+| AC voltage | up to about 75 V RMS | op-amp front end, 0.21 V per ADC count in the firmware |
+| Frequency | 50 Hz | about 20 samples per cycle at the ~977 Hz sampling rate |
+
+These are design limits worked out from the parts and the firmware's scale factors, not tested limits.
 
 ---
 
@@ -12,7 +23,7 @@ Built on an ATmega328-class AVR, sampling at register level rather than through 
 
 Two multimeters can tell you volts and amps. They cannot tell you real power on a reactive load, because as soon as current and voltage fall out of phase, the product of their RMS values stops being the power actually delivered.
 
-This meter measures both channels continuously and computes:
+For an AC load, the firmware measures both channels continuously and computes:
 
 | Quantity | Symbol | How |
 |---|---|---|
@@ -22,7 +33,7 @@ This meter measures both channels continuously and computes:
 | Apparent power | S | U<sub>rms</sub> × I<sub>rms</sub> |
 | Reactive power | Q | √(S² − P²) |
 | Power factor | cos φ | P / S |
-| Load type |  | sign of the zero-crossing index difference |
+| Load type |  | sign of the zero-crossing index difference (not reliable yet, see below) |
 
 ---
 
@@ -45,6 +56,8 @@ The result is that voltage and current are sampled back-to-back on every tick, s
 - current crossing **after** voltage → current lags → **inductive**
 - current crossing **before** voltage → current leads → **capacitive**
 - same index → resistive
+
+That is the idea. As written it is not reliable, for the reasons under Known limitations.
 
 ---
 
@@ -92,13 +105,23 @@ At roughly 1 ms per sample pair a full buffer takes about 200 ms to fill, and pr
 int32_t diffU = ((int32_t)bufferU[i] - (int32_t)averageU) * SCALE_U;
 ```
 
-The multiply gives a float, but the assignment cuts it back to an integer, so a difference of 4 ADC counts × 0.21 becomes 0, not 0.84. Because it cuts toward zero rather than to the nearest value, the error always goes the same way, so RMS and power come out too low rather than just noisy. Accumulating in `float` fixes it.
+The multiply gives a float, but the assignment cuts it back to an integer, so a difference of 4 ADC counts × 0.21 becomes 0, not 0.84. Because it cuts toward zero rather than to the nearest value, the error always goes the same way, so RMS and power come out too low rather than just noisy.
+
+It is worst for current. With the 30 A ACS712, `SCALE_I` is about 0.077 A per count, so every current sample is cut to whole amps and any sample under 1 A becomes 0. A load drawing less than about 0.7 A reads as zero current and zero power, and the power factor divides by zero and prints `nan`. Voltage is cut to whole volts the same way. Accumulating in `float` fixes all of it.
 
 `(int32_t)averageU` cuts off the mean the same way, adding up to a full count of DC offset to every sample.
 
 ### Zero-crossing direction is not checked
 
-`findZCIndex()` returns the first crossing it finds, regardless of whether the signal is rising or falling through its mean. If voltage happens to cross rising and current crosses falling, the index difference between them is not a phase difference at all. Matching crossing direction, and averaging across several crossings, would make the inductive/capacitive result reliable rather than only usually correct.
+`findZCIndex()` returns the first crossing it finds, regardless of whether the signal is rising or falling through its mean. If voltage happens to cross rising and current crosses falling, the index difference between them is not a phase difference at all. Because each buffer starts at an arbitrary point in the cycle, the first current crossing can belong to the previous half-cycle, and the more reactive the load, the more often the answer comes out backwards: at a 90° shift it is a coin toss. The sampling is also coarse, about 18° per sample at 50 Hz, so a mildly reactive load reads as resistive. Matching crossing direction and averaging across several crossings would fix the first problem.
+
+### DC power is never computed
+
+Every calculation starts by subtracting the buffer's average. For AC that removes the front end's offset, which is correct. For a DC load it removes the signal itself, so RMS, P, S and Q all come out near zero. The DC level only appears as the raw `Avg U` / `Avg I` ADC averages, which are never scaled to volts or amps, and `Avg I` still includes the ACS712's mid-rail offset.
+
+### One voltage input, no AC/DC mode
+
+Voltage is read from `ADC0` only, and the firmware has no AC or DC mode, so the divider or the op-amp front end has to be connected by hand for the load being measured.
 
 ### Calibration is hard-coded
 
