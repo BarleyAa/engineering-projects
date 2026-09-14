@@ -1,6 +1,6 @@
 # SmartTurn — Retrofit Smart Lock
 
-A device that makes an ordinary interior door lock smart without modifying the door. About €15–30 in parts, against €100–280 for the products on the market.
+A device that lets you lock and unlock an ordinary interior door from your phone, without changing the lock. About €15–30 in parts.
 
 Team project (3 people) at Riga Technical University. **My contribution: hardware, firmware and mechanical design.**
 
@@ -22,6 +22,16 @@ Most interior doors have no keyhole on the inside, just a thumb-turn. Every comm
 A 3D-printed gripper clamps over the existing thumb-turn. A 13 kg-rated MG996R metal-gear servo turns it. An ESP32 provides Wi-Fi and Bluetooth control alongside a physical button on the unit.
 
 The design constraint: it operates from the inside only, and the outside key keeps working exactly as before. The lock is never replaced or bypassed, only turned.
+
+## Phone control
+
+The ESP32 connects to the Wi-Fi network and serves its own control page, so any phone browser works and there is no app to install. The page shows the lock state, a password field and Unlock / Lock buttons. A command turns the servo to the matching position and the page shows the new state. The physical button on the unit still works when no phone is to hand.
+
+<p align="center">
+  <img src="docs/phone.webp" width="280" alt="The SmartTurn control page in a phone browser">
+</p>
+
+The phone has to be on the same network as the lock, and the page runs over plain HTTP. Both are the first items under Next steps.
 
 ---
 
@@ -57,9 +67,10 @@ Prototype tested in normal daily use.
 
 ## Next steps
 
-- Stiffer housing
+- Move the control page to an encrypted connection. It runs over plain HTTP now, so the password crosses the network unencrypted.
+- Access from outside the home network, through a small cloud relay or Matter. Today the phone has to be on the same Wi-Fi as the lock.
+- A stiffer housing
 - A gripper that adjusts to more than one knob shape without a reprint
-- Matter compatibility
 
 ## TODO
 
