@@ -93,5 +93,3 @@ Libraries needed, all from the Library Manager:
 ## TODO
 
 - [ ] Add the STL for the vent hatch to `hardware/`
-- [ ] Build photos in `docs/`
-- [ ] Consider replacing the DHT11. It is slow and not very accurate; an SHT31 would give better accuracy and humidity data worth using

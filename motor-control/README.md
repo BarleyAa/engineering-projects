@@ -2,6 +2,12 @@
 
 Four-button control of a brushed DC gearmotor: speed up, speed down, reverse, emergency stop.
 
+## Demo
+
+[![The setup: gearmotor, TB6612FNG driver and NUCLEO board on a breadboard](docs/demo-still.webp)](docs/demo.mp4)
+
+35 seconds of it running: speed steps, a direction change and the emergency stop. Click the picture to open the video.
+
 ---
 
 ## Control
@@ -38,4 +44,3 @@ Reversal is deliberately not a live switch. Reversing a spinning motor puts its 
 
 - [ ] Add firmware to `src/`
 - [ ] Wiring diagram
-- [ ] Add the demo video, 35 seconds of it running
